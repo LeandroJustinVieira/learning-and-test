@@ -1,20 +1,28 @@
 # Efetuando a instalação do projeto
 
-´´´
+````
 npm install -g @vue/cli
-´´´
+````
 
 # Criando um projeto
 
-´´´
+````
 vue create .
-´´´
+````
 
 # Executando projeto
 
-´´´
+````
 npm run serve
-´´´
+````
+
+# Build app
+
+````
+npm run build
+````
+
+# Documentação
 
 ### Jslint
 
@@ -28,3 +36,4 @@ Hurt your feelings
 
 * Lifecycle Hooks e Computed Properties
 * Observable (Vue) vs To way data binding (angular js)
+* Components
