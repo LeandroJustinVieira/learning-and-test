@@ -18,10 +18,13 @@
                     <ul>
                         <li class="list-group-item" v-for="domain in domains" v-bind:key="domain.name">
                             <div class="row">
-                                <div class="col-md">
+                                <div class="col-md-6">
                                     {{domain.name}}
                                 </div>
-                                <div class="col-md text-right">
+                                <div class="col-md-3">
+                                    <span class="badge badge-info">{{(domain.available) ? "Disponível" : "Indisponível"}}</span>
+                                </div>
+                                <div class="col-md-3 text-right">
                                     <a class="btn btn-info" v-bind:href="domain.checkout" target="_blank">
                                         <span class="fa fa-shopping-cart"></span>
                                     </a>
@@ -51,12 +54,13 @@
 				items: {
 					prefix: [],
 					suffix: []
-				}
+				},
+				domains: []
 			};
 		},
 		methods: {
 			getItems(type) {
-				axios({
+				return axios({
 					url: "http://localhost:4000",
 					method: "post",
 					data: {
@@ -74,9 +78,7 @@
 						}
 					}
 				}).then(response => {
-					console.log("response", response);
 					const query = response.data;
-					console.log("query", query);
 					this.items[type] = query.data.items;
 				});
 			},
@@ -101,6 +103,7 @@
 					const query = response.data;
 					const newItem = query.data.newItem;
 					this.items[item.type].push(newItem);
+					this.generateDomains();
 				});
 			},
 			deleteItem(item) {
@@ -117,26 +120,39 @@
 						}
 					}
 				}).then(() => {
-					this.getItems(item.type);
+					this.items[item.type].splice(this.items[item.type].indexOf(item), 1);
+					this.generateDomains();
+				});
+			},
+			generateDomains() {
+				console.log("generate domains ...");
+				axios({
+					url: "http://localhost:4000",
+					method: "post",
+					data: {
+						query: `
+                            mutation {
+                                domains : generateDomains {
+                                    name
+                                    checkout
+                                    available
+                                }
+                            }
+                	    `
+					}
+				}).then((response) => {
+                    const query = response.data;
+                    this.domains = query.data.domains;
+                    console.log("domains", this.domains);
 				});
 			}
-		},
-		computed: {
-			domains() {
-				console.log("generate domains ...");
-				const domains = [];
-				for (const prefix of this.items.prefix) {
-					for (const suffix of this.items.suffix) {
-						const name = prefix.description + suffix.description;
-						const checkout = `https://checkout.hostgator.com.br/?a=add&sld=${name.toLowerCase()}&tld=.com.br`;
-						domains.push({name, checkout});
-					}
-				}
-				return domains;
-			}
 		}, created() {
-			this.getItems("prefix");
-			this.getItems("suffix");
+			Promise.all([
+				this.getItems("prefix"),
+				this.getItems("suffix")
+			]).then(() => {
+				this.generateDomains();
+			});
 		}
 	};
 </script>
