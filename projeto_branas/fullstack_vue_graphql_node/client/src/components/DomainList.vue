@@ -28,6 +28,10 @@
                                     <a class="btn btn-info" v-bind:href="domain.checkout" target="_blank">
                                         <span class="fa fa-shopping-cart"></span>
                                     </a>
+                                    &nbsp;
+                                    <a class="btn btn-info" @click="openDomain(domain)">
+                                        <span class="fa fa-search"></span>
+                                    </a>
                                 </div>
                             </div>
                         </li>
@@ -141,11 +145,16 @@
                 	    `
 					}
 				}).then((response) => {
-                    const query = response.data;
-                    this.domains = query.data.domains;
-                    console.log("domains", this.domains);
+					const query = response.data;
+					this.domains = query.data.domains;
+					console.log("domains", this.domains);
 				});
-			}
+			},
+            openDomain(domain) {
+				this.$router.push({
+                    path: `/domains/${domain.name}`
+                });
+            }
 		}, created() {
 			Promise.all([
 				this.getItems("prefix"),
