@@ -1,5 +1,6 @@
 const {ApolloServer} = require("apollo-server");
 const dns = require("dns");
+const service = require("./service");
 
 const typeDefs = `
 	type Item {
@@ -32,15 +33,6 @@ const typeDefs = `
 	}
 `;
 
-const items = [
-	{id: 1, type: "prefix", description: "Air"},
-	{id: 2, type: "prefix", description: "Jet"},
-	{id: 3, type: "prefix", description: "Flight"},
-	{id: 4, type: "suffix", description: "Hub"},
-	{id: 5, type: "suffix", description: "Station"},
-	{id: 6, type: "suffix", description: "Mart"},
-];
-
 const isDomainAvailable = function (url) {
 	return new Promise(function (resolve, reject) {
 		dns.resolve(url, function (error) {
@@ -55,29 +47,23 @@ const isDomainAvailable = function (url) {
 
 const resolvers = {
 	Query: {
-		items(_, args) {
-			console.log("items args", args);
-			return items.filter(item => item.type === args.type);
+		async items(_, args) {
+			return service.getItemsByType(args.type);
 		}
 	},
 	Mutation: {
-		saveItem(_, args) {
-			console.log("saveItem args", args);
-			const item = args.item;
-			item.id = Math.floor(Math.random() * 1000);
-			items.push(item);
-			return item;
+		async saveItem(_, args) {
+			//fazendo destructuring js, para pegar o primeiro elemento do array
+			const [newItem] = await service.saveItem(args.item);
+			return newItem;
 		},
-		deleteItem(_, args) {
-			console.log("deleteItem args", args);
-			const id = args.id;
-			const item = items.find(item => item.id === id);
-			if (!item) return false;
-			items.splice(items.indexOf(item), 1);
+		async deleteItem(_, args) {
+			await service.deleteItem(args.id);
 			return true;
 		},
 		async generateDomains() {
 			const domains = [];
+			const items =  await service.getItems();
 			for (const prefix of items.filter(item => item.type === "prefix")) {
 				for (const suffix of items.filter(item => item.type === "suffix")) {
 					const name = prefix.description + suffix.description;
