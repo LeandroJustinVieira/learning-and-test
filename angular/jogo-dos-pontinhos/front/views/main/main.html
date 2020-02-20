@@ -1,0 +1,63 @@
+<div layout="row" layout-align="stretch">
+    <div flex="60">
+        <div layout="row" layout-align="center center">
+            <md-button class="md-primary" ng-click="versusAnotherPlayer()">
+                <md-icon>people</md-icon>
+            </md-button>
+            <md-button class="md-primary" ng-click="versusMachine()">
+                <md-icon>dvr</md-icon>
+            </md-button>
+            <md-button class="md-primary" ng-click="restart()">
+                <md-icon>refresh</md-icon>
+            </md-button>
+        </div>
+        <div layout="row" layout-align="center center">
+            <ui-canvas width="canvas.width" height="canvas.height"></ui-canvas>
+        </div>
+
+    </div>
+    <div flex="40">
+        <md-toolbar class="md-primary">
+            <div class="md-toolbar-tools">
+                <h2 class="md-flex">Relatório de movimentos</h2>
+            </div>
+        </md-toolbar>
+        <md-content style="height: 100%">
+            <md-card>
+                <md-card-title>
+                    <md-card-title-media>
+                        <div class="md-media-sm card-media" layout>
+                            <md-icon style="color:blue">{{player1.icon}}</md-icon>
+                        </div>
+                    </md-card-title-media>
+                    <md-card-title-text>
+                        <span class="md-headline">{{player1.name}} {{player1.turn != true? ' - Sua vez!' : ''}}</span>
+                        <md-input-container class="md-block">
+                            <textarea disabled ng-model="final" rows="3"></textarea>
+                        </md-input-container>
+                        <!--<span style="margin-left: 80%">SCORE: {{player1.score}}</span>-->
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+
+            <md-card>
+                <md-card-title>
+                    <md-card-title-media>
+                        <div class="md-media-sm card-media" layout>
+                            <md-icon style="color:red">{{player2.icon}}</md-icon>
+                        </div>
+                    </md-card-title-media>
+                    <md-card-title-text>
+                        <span class="md-headline">{{player2.name}} {{player2.turn != true? ' - Sua vez!' : ''}}</span>
+                        <md-input-container class="md-block">
+                            <textarea disabled ng-model="final" rows="3"></textarea>
+                        </md-input-container>
+                        <!--<span style="margin-left: 80%">SCORE: {{player2.score}}</span>.-->
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+
+        </md-content>
+
+    </div>
+</div>

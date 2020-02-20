@@ -1,0 +1,18 @@
+{
+  "name": "mini-server",
+  "version": "1.0.0",
+  "description": "",
+  "startn": "node app.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.0",
+    "firebase": "^6.0.4",
+    "http": "0.0.0",
+    "http-server": "^0.11.1"
+  }
+}
