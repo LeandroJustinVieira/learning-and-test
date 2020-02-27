@@ -1,0 +1,52 @@
+version: "3.2"
+services:
+  php:
+    build:
+      context: .
+    image: amakundu/moe-php-mysql-demo:1.0.0
+    networks:
+      - frontend
+      - backend
+    environment:
+      - XDEBUG_CONFIG=remote_host=10.0.0.102 #IP network local machine
+      - PHP_IDE_CONFIG="serverName=dbgp"
+      - MYSQL_HOST=crud-vue-bootstrap-php-mysql-app
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1
+      - MYSQL_DB=crud-vue-bootstrap-php
+    volumes:
+      - .:/var/www/html/
+    ports:
+      - "8080:80"
+    container_name: crud-vue-bootstrap-php-php-app
+  mysql:
+    image: mysql:5.7
+    ports:
+        - "3307:3306"
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=1
+      - MYSQL_USER=crud
+      - MYSQL_PASSWORD=1
+      - MYSQL_DATABASE=crud-vue-bootstrap-php
+    volumes:
+      - ./mysqlconf:/etc/mysql/conf.d
+    container_name: crud-vue-bootstrap-php-mysql-app
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    depends_on:
+      - mysql
+    networks:
+      - backend
+    ports:
+      - "33071:80"
+    environment:
+      - PMA_HOST=crud-vue-bootstrap-php-mysql-app
+      - PMA_PORT= 3306
+    volumes:
+      - /sessions
+    container_name: crud-vue-bootstrap-php-phpmyadmin-app
+networks:
+  frontend:
+  backend:
