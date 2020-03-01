@@ -2,6 +2,8 @@ package com.frame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
 
@@ -13,9 +15,14 @@ public class Game extends Canvas implements Runnable {
     private final int HEIGHT = 120;
     private final int SCALE = 3;
 
+    private BufferedImage image;
+
     public Game() {
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         this.initFrame();
+
+        //Criando fundo para a janela
+        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
     }
 
@@ -51,6 +58,19 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void render() {
+        BufferStrategy bs = this.getBufferStrategy();
+        if (bs == null) {
+            this.createBufferStrategy(3);
+            return;
+        }
+
+        //Renderizando background
+        Graphics g = image.getGraphics();
+        g.setColor(new Color(19, 19, 19));
+        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g = bs.getDrawGraphics();
+        g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+        bs.show();
 
     }
 
@@ -72,8 +92,8 @@ public class Game extends Canvas implements Runnable {
             if (delta >= 1) {
                 tick();
                 render();
-                frames ++;
-                delta --;
+                frames++;
+                delta--;
             }
 
             if (System.currentTimeMillis() - timer >= 1000) {
