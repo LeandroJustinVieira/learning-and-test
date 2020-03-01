@@ -11,8 +11,8 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private boolean isRunning = true;
 
-    private final int WIDTH = 160;
-    private final int HEIGHT = 120;
+    private final int WIDTH = 240;
+    private final int HEIGHT = 160;
     private final int SCALE = 3;
 
     private BufferedImage image;
@@ -45,6 +45,12 @@ public class Game extends Canvas implements Runnable {
 
 
     public synchronized void stop() {
+        isRunning = false;
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+
+        }
 
     }
 
@@ -64,14 +70,28 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        //Renderizando background
+        //Renderizando background fundo preto, sempre é renderizando para sobreescrever todas as animanções
         Graphics g = image.getGraphics();
         g.setColor(new Color(19, 19, 19));
         g.fillRect(0, 0, WIDTH, HEIGHT);
+
+
+        //Renderizando retangulo
+        g.setColor(Color.CYAN);
+        g.fillRect(40, 20, 30, 30);
+
+        //Renderizando bola
+        g.setColor(Color.CYAN);
+        g.fillOval(100, 20, 30, 30);
+
+        //Renderizando texto
+        g.setFont(new Font("Arial", Font.BOLD, 10));
+        g.setColor(Color.WHITE);
+        g.drawString("Olá mundo", 10, 10);
+
         g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
         bs.show();
-
     }
 
 
@@ -102,5 +122,7 @@ public class Game extends Canvas implements Runnable {
                 timer = System.currentTimeMillis();
             }
         }
+
+        stop();
     }
 }
