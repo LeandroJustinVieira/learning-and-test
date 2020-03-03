@@ -17,7 +17,25 @@ public class Game extends Canvas implements Runnable {
 
     private BufferedImage image;
 
+    private Spritesheet spritesheet;
+    private BufferedImage[] player;
+    private int frames = 0;
+    private int maxframes = 10;
+    private int curAnimation = 0, maxAnimation = 4;
+
+    private int x = 20;
+    private boolean right = true;
+
+
     public Game() {
+        spritesheet = new Spritesheet("/sprintsheet.png");
+        player = new BufferedImage[4];
+
+        player[0] = spritesheet.getSprite(0,0,16,16);
+        player[1] = spritesheet.getSprite(16,0,16,16);
+        player[2] = spritesheet.getSprite(32,0,16,16);
+        player[3] = spritesheet.getSprite(48,0,16,16);
+
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         this.initFrame();
 
@@ -49,7 +67,6 @@ public class Game extends Canvas implements Runnable {
         try {
             thread.join();
         } catch (InterruptedException ex) {
-
         }
 
     }
@@ -61,6 +78,23 @@ public class Game extends Canvas implements Runnable {
 
     public void tick() {
 
+        frames++;
+        if (frames > maxframes) {
+            frames = 0;
+            curAnimation ++;
+            if (curAnimation >= maxAnimation) {
+                curAnimation = 0;
+            }
+        }
+
+        if (x == 160 || x == 10) {
+            right = !right;
+        }
+        if (right) {
+            x++;
+        } else {
+            x--;
+        }
     }
 
     public void render() {
@@ -81,14 +115,25 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(40, 20, 30, 30);
 
         //Renderizando bola
-        g.setColor(Color.CYAN);
+        g.setColor(Color.RED);
         g.fillOval(100, 20, 30, 30);
 
         //Renderizando texto
         g.setFont(new Font("Arial", Font.BOLD, 10));
         g.setColor(Color.WHITE);
-        g.drawString("Olá mundo", 10, 10);
+        g.drawString("Eu sou um player!", 10, 10);
 
+        //Renderização do jogo
+        g.drawImage(player[curAnimation], x, 120, null);
+
+        g.drawImage(player[curAnimation], 120, 90, null);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.rotate(Math.toRadians(180), 90+8, 90+8);
+        g2.drawImage(player[curAnimation], 90, 90, null);
+
+
+        g.dispose();
         g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
         bs.show();
