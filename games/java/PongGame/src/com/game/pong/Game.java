@@ -9,16 +9,21 @@ import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
-    public static int WIDTH = 240;
+    public static int WIDTH = 160;
     public static int HEIGHT = 120;
     public static int SCALE = 3;
 
     public BufferedImage layer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
-    public Player player;
+    public static Score score = new Score();
+    public static Player player;
+    public static Enemy enemy;
+    public static Ball ball;
 
     public Game() {
-        this.player = new Player(100, HEIGHT - 10);
+        this.player = new Player(100, HEIGHT - 5);
+        this.enemy = new Enemy(100, 0);
+        this.ball = new Ball(WIDTH / 2, HEIGHT / 2);
         this.addKeyListener(this);
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
     }
@@ -38,7 +43,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public void tick() {
         player.tick();
-
+        enemy.tick();
+        ball.tick();
     }
 
     public void render() {
@@ -50,7 +56,24 @@ public class Game extends Canvas implements Runnable, KeyListener {
         Graphics g = layer.getGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
+
+        g.setFont(new Font("Arial", Font.BOLD, 10));
+        g.setColor(Color.WHITE);
+
+        g.drawString(score.getScoreEnemy() + "", WIDTH / 2, (HEIGHT / 2) - 15);
+        g.fillRect(2, HEIGHT / 2, 15, 1);
+        g.fillRect(22, HEIGHT / 2, 15, 1);
+        g.fillRect(42, HEIGHT / 2, 15, 1);
+        g.fillRect(62, HEIGHT / 2, 15, 1);
+        g.fillRect(82, HEIGHT / 2, 15, 1);
+        g.fillRect(102, HEIGHT / 2, 15, 1);
+        g.fillRect(122, HEIGHT / 2, 15, 1);
+        g.fillRect(142, HEIGHT / 2, 15, 1);
+        g.drawString(score.getScorePlayer() + "", WIDTH / 2, (HEIGHT / 2) + 15);
+
         player.render(g);
+        enemy.render(g);
+        ball.render(g);
 
         g = bs.getDrawGraphics();
         g.drawImage(layer, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);

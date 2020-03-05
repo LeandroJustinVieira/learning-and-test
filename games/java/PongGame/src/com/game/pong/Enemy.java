@@ -2,12 +2,12 @@ package com.game.pong;
 
 import java.awt.*;
 
-public class Player {
+public class Enemy {
 
-    public boolean right = false, left = false;
-    public int x, y, width, height;
+    public double x, y;
+    public int width, height;
 
-    public Player(int x, int y) {
+    public Enemy(double x, double y) {
         this.x = x;
         this.y = y;
         this.width = 40;
@@ -15,23 +15,18 @@ public class Player {
     }
 
     public void tick() {
-        if (right) {
-            x++;
-        } else if (left) {
-            x--;
-        }
+        x += (Game.ball.x - x - 6) * 0.07;
+
         if (x + width > Game.WIDTH) {
             x = Game.WIDTH - width;
         }
         if (x < 0) {
             x = 0;
         }
-
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(x, y, this.width, this.height);
+        g.setColor(Color.RED);
+        g.fillRect((int) x, (int) y, this.width, this.height);
     }
-
 }
