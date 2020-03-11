@@ -3,16 +3,16 @@ package com.zelda.entities;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Entity {
+public abstract class Entity {
 
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private int width;
     private int height;
 
     private BufferedImage sprite;
 
-    public Entity(int x, int y, int width, int height, BufferedImage sprite) {
+    public Entity(double x, double y, int width, int height, BufferedImage sprite) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -20,27 +20,25 @@ public class Entity {
         this.sprite = sprite;
     }
 
-    public void tick() {
-
-    }
+    public abstract void tick();
 
     public void render(Graphics g) {
-        g.drawImage(sprite, this.getX(), this.getY(), null);
+        g.drawImage(this.getSprite(), (int) this.getX(), (int) this.getY(), null);
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -58,5 +56,13 @@ public class Entity {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public BufferedImage getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(BufferedImage sprite) {
+        this.sprite = sprite;
     }
 }
