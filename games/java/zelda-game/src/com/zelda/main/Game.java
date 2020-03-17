@@ -26,7 +26,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private BufferedImage image;
 
     public List<Entity> entites;
-    public SpriteSheet spriteSheet;
+    public static SpriteSheet spriteSheet;
     private Player player;
 
 
@@ -41,7 +41,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         entites.add(this.player);
 
         this.addKeyListener(this);
-
     }
 
     public void initFrame() {
@@ -53,7 +52,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
 
     public synchronized void start() {
         this.thread = new Thread(this);
@@ -90,7 +88,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         //Renderizando background fundo preto, sempre é renderizando para sobreescrever todas as animanções
         Graphics g = image.getGraphics();
-        g.setColor(new Color(19, 19, 19));
+        g.setColor(new Color(70, 117, 38));
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         //Renderização do jogo
