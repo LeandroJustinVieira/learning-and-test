@@ -3,6 +3,7 @@ package com.zelda.main;
 import com.zelda.entities.Entity;
 import com.zelda.entities.Player;
 import com.zelda.graficos.SpriteSheet;
+import com.zelda.world.World;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,20 +28,25 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public List<Entity> entites;
     public static SpriteSheet spriteSheet;
+
+    public static World world;
+
     private Player player;
 
 
     public Game() {
+        this.addKeyListener(this);
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         this.initFrame();
+
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         entites = new ArrayList<>();
         spriteSheet = new SpriteSheet("/spritesheet.png");
+        world = new World("/map.png");
 
         this.player = new Player(0, 0, 16, 16, spriteSheet.getSprite(32, 0, 16, 16));
         entites.add(this.player);
 
-        this.addKeyListener(this);
     }
 
     public void initFrame() {
@@ -88,11 +94,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         //Renderizando background fundo preto, sempre é renderizando para sobreescrever todas as animanções
         Graphics g = image.getGraphics();
-        g.setColor(new Color(70, 117, 38));
+        g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         //Renderização do jogo
         //Graphics2D graphics2D = (Graphics2D) g;
+
+        world.render(g);
+
         for (int i = 0; i < entites.size(); i++) {
             Entity entity = entites.get(i);
             entity.render(g);
