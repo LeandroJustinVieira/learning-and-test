@@ -1,9 +1,6 @@
 package com.zelda.world;
 
-import com.zelda.entities.Bullet;
-import com.zelda.entities.Enemy;
-import com.zelda.entities.LifePack;
-import com.zelda.entities.Weapon;
+import com.zelda.entities.*;
 import com.zelda.main.Game;
 
 import javax.imageio.ImageIO;
@@ -44,19 +41,19 @@ public class World {
                             tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_WALL, xx * 16, yy * 16);
                             break;
                         case COLOR_WEAPON:
-                            Game.entites.add(new Weapon(xx * 16, yy * 16, 16 ,16, Tile.TITLE_WEAPON));
+                            Game.entites.add(new Weapon(xx * 16, yy * 16, 16 ,16, Entity.ENTITY_WEAPON));
                             tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_FLOOR, xx * 16, yy * 16);
                             break;
                         case COLOR_LIFE_PACK:
-                            Game.entites.add(new LifePack(xx * 16, yy * 16, 16 ,16, Tile.TITLE_LIFE_PACK));
+                            Game.entites.add(new LifePack(xx * 16, yy * 16, 16 ,16, Entity.ENTITY_LIFE_PACK));
                             tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_FLOOR, xx * 16, yy * 16);
                             break;
                         case COLOR_BULLET:
-                            Game.entites.add(new Bullet(xx * 16, yy * 16, 16 ,16, Tile.TITLE_BULLET));
+                            Game.entites.add(new Bullet(xx * 16, yy * 16, 16 ,16, Entity.ENTITY_BULLET));
                             tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_FLOOR, xx * 16, yy * 16);
                             break;
                         case COLOR_ENEMY:
-                            Game.entites.add(new Enemy(xx * 16, yy * 16, 16 ,16, Tile.TITLE_ENEMY));
+                            Game.entites.add(new Enemy(xx * 16, yy * 16, 16 ,16, Entity.ENTITY_ENEMY));
                             tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_FLOOR, xx * 16, yy * 16);
                             break;
                         case COLOR_PLAYER:

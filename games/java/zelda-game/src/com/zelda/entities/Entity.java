@@ -7,6 +7,11 @@ import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 
+    public static BufferedImage ENTITY_LIFE_PACK = Game.spriteSheet.getSprite(6 * 16, 0, 16, 16);
+    public static BufferedImage ENTITY_WEAPON = Game.spriteSheet.getSprite(7 * 16, 0, 16, 16);
+    public static BufferedImage ENTITY_BULLET = Game.spriteSheet.getSprite(6 * 16, 16, 16, 16);
+    public static BufferedImage ENTITY_ENEMY = Game.spriteSheet.getSprite(7 * 16, 16, 16, 16);
+
     private double x;
     private double y;
     private int width;
