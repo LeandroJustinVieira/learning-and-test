@@ -1,6 +1,7 @@
 package com.zelda.entities;
 
 import com.zelda.main.Game;
+import com.zelda.world.Camera;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -64,14 +65,18 @@ public class Player extends Entity {
         } else {
             index = 0;
         }
+
+        Camera.x = ((int) getX() - Game.WIDTH/2);
+        Camera.y = ((int) getY() - Game.HEIGHT/2);
+
     }
 
     @Override
     public void render(Graphics g) {
         if (dir == dirRightValue) {
-            g.drawImage(rightPlayer[index], (int) this.getX(), (int) this.getY(), null);
+            g.drawImage(rightPlayer[index], (int) this.getX() - Camera.x, (int) this.getY() - Camera.y, null);
         } else if (dir == dirLeftValue) {
-            g.drawImage(leftPlayer[index], (int) this.getX(), (int) this.getY(), null);
+            g.drawImage(leftPlayer[index], (int) this.getX() - Camera.x, (int) this.getY() - Camera.y, null);
         }
     }
 

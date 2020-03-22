@@ -1,6 +1,7 @@
 package com.zelda.entities;
 
 import com.zelda.main.Game;
+import com.zelda.world.Camera;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -30,7 +31,7 @@ public abstract class Entity {
     public abstract void tick();
 
     public void render(Graphics g) {
-        g.drawImage(this.getSprite(), (int) this.getX(), (int) this.getY(), null);
+        g.drawImage(this.getSprite(), (int) this.getX() - Camera.x, (int) this.getY() - Camera.y, null);
     }
 
     public double getX() {
