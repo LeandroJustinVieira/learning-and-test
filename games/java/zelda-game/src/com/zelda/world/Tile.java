@@ -9,6 +9,10 @@ public class Tile {
 
     public static BufferedImage TILE_FLOOR = Game.spriteSheet.getSprite(0, 0, 16, 16);
     public static BufferedImage TILE_WALL = Game.spriteSheet.getSprite(16, 0, 16, 16);
+    public static BufferedImage TITLE_LIFE_PACK = Game.spriteSheet.getSprite(6 * 16, 0, 16, 16);
+    public static BufferedImage TITLE_WEAPON = Game.spriteSheet.getSprite(7 * 16, 0, 16, 16);
+    public static BufferedImage TITLE_BULLET = Game.spriteSheet.getSprite(6 * 16, 16, 16, 16);
+    public static BufferedImage TITLE_ENEMY = Game.spriteSheet.getSprite(7 * 16, 16, 16, 16);
 
     private BufferedImage sprite;
     private int x, y;

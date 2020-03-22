@@ -1,5 +1,7 @@
 package com.zelda.entities;
 
+import com.zelda.main.Game;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
