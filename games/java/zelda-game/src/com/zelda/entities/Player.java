@@ -2,6 +2,7 @@ package com.zelda.entities;
 
 import com.zelda.main.Game;
 import com.zelda.world.Camera;
+import com.zelda.world.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -33,21 +34,21 @@ public class Player extends Entity {
     @Override
     public void tick() {
         moved = false;
-        if (isRight()) {
+        if (isRight() && World.isFree((int)( this.getX() + this.getSpeed()), (int) this.getY())) {
             moved = true;
             dir = dirRightValue;
             this.setX(this.getX() + this.getSpeed());
         }
-        if (isLeft()) {
+        if (isLeft() && World.isFree((int)(this.getX() - this.getSpeed()), (int) this.getY())) {
             moved = true;
             dir = dirLeftValue;
             this.setX(this.getX() - this.getSpeed());
         }
-        if (isUp()) {
+        if (isUp() && World.isFree((int) this.getX(), (int) (this.getY() - this.getSpeed()))) {
             moved = true;
             this.setY(this.getY() - this.getSpeed());
         }
-        if (isDown()) {
+        if (isDown() && World.isFree((int)this.getX(), (int) (this.getY() + this.getSpeed()))) {
             moved = true;
             this.setY(this.getY() + this.getSpeed());
         }
@@ -66,8 +67,8 @@ public class Player extends Entity {
             index = 0;
         }
 
-        Camera.x = ((int) getX() - Game.WIDTH/2);
-        Camera.y = ((int) getY() - Game.HEIGHT/2);
+        Camera.x = Camera.clamp((((int) getX()) - Game.WIDTH/2), 0, World.WIDTH * 16 - Game.WIDTH);
+        Camera.y = Camera.clamp((((int) getY()) - Game.HEIGHT/2), 0, World.HEIGHT  * 16 - Game.HEIGHT);
 
     }
 
