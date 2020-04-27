@@ -53,7 +53,9 @@ public class World {
                             tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_FLOOR, xx * 16, yy * 16);
                             break;
                         case COLOR_ENEMY:
-                            Game.entites.add(new Enemy(xx * 16, yy * 16, 16, 16, Entity.ENTITY_ENEMY));
+                            Enemy enemy = new Enemy(xx * 16, yy * 16, 16, 16, Entity.ENTITY_ENEMY);
+                            Game.enemies.add(enemy);
+                            Game.entites.add(enemy);
                             tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_FLOOR, xx * 16, yy * 16);
                             break;
                         case COLOR_PLAYER:
